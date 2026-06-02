@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 620" preserveAspectRatio="xMidYMid meet" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <title>Acty Actor Supervision Hierarchy</title>
+  <desc>A simplified teaching diagram for Acty's actor-style coding agent runtime.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#334155"/>
+    </marker>
+    <marker id="blueArrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#0369a1"/>
+    </marker>
+    <marker id="greenArrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#047857"/>
+    </marker>
+  </defs>
+  <rect width="980" height="620" fill="#ffffff"/>
+  <text x="490" y="36" text-anchor="middle" dominant-baseline="middle" font-size="24" font-weight="700" fill="#111827">Acty Actor Supervision Hierarchy</text>
+  <text x="490" y="66" text-anchor="middle" dominant-baseline="middle" font-size="13" fill="#475569">Actors own state and communicate through explicit messages. Dashed edges show request/result routes.</text>
+
+  <path d="M 678 112 L 738 112" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="750" y="112" dominant-baseline="middle" font-size="11" font-weight="600" fill="#475569">spawned actor task</text>
+  <path d="M 678 140 L 738 140" fill="none" stroke="#0369a1" stroke-width="1.5" stroke-dasharray="6 6" marker-end="url(#blueArrow)"/>
+  <text x="750" y="140" dominant-baseline="middle" font-size="11" font-weight="600" fill="#475569">message route</text>
+
+  <g id="system-supervisor">
+    <rect x="350" y="105" width="280" height="76" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+    <rect x="366" y="118" width="54" height="20" rx="6" fill="#e0f2fe" stroke="#0369a1"/>
+    <text x="393" y="128" text-anchor="middle" dominant-baseline="middle" font-size="10" font-weight="700" fill="#0369a1">ACTOR</text>
+    <text x="490" y="144" text-anchor="middle" dominant-baseline="middle" font-size="15" font-weight="700" fill="#111827">SystemSupervisor</text>
+    <text x="490" y="164" text-anchor="middle" dominant-baseline="middle" font-size="11.5" fill="#475569">owns runtime lifecycle</text>
+  </g>
+
+  <g id="llm">
+    <rect x="80" y="260" width="220" height="86" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"/>
+    <rect x="96" y="273" width="54" height="20" rx="6" fill="#ffffff" stroke="#0369a1"/>
+    <text x="123" y="283" text-anchor="middle" dominant-baseline="middle" font-size="10" font-weight="700" fill="#0369a1">ACTOR</text>
+    <text x="190" y="302" text-anchor="middle" dominant-baseline="middle" font-size="15" font-weight="700" fill="#111827">LlmActor</text>
+    <text x="190" y="323" text-anchor="middle" dominant-baseline="middle" font-size="11.5" fill="#475569">owns provider transport</text>
+    <text x="190" y="338" text-anchor="middle" dominant-baseline="middle" font-size="11.5" fill="#475569">OpenAI or Anthropic</text>
+  </g>
+
+  <g id="agent">
+    <rect x="380" y="260" width="220" height="86" rx="8" fill="#ecfdf5" stroke="#047857" stroke-width="1.5"/>
+    <rect x="396" y="273" width="54" height="20" rx="6" fill="#ffffff" stroke="#047857"/>
+    <text x="423" y="283" text-anchor="middle" dominant-baseline="middle" font-size="10" font-weight="700" fill="#047857">ACTOR</text>
+    <text x="490" y="302" text-anchor="middle" dominant-baseline="middle" font-size="15" font-weight="700" fill="#111827">AgentActor</text>
+    <text x="490" y="323" text-anchor="middle" dominant-baseline="middle" font-size="11.5" fill="#475569">owns transcript + phase</text>
+    <text x="490" y="338" text-anchor="middle" dominant-baseline="middle" font-size="11.5" fill="#475569">tracks pending tools</text>
+  </g>
+
+  <g id="tools">
+    <rect x="680" y="260" width="220" height="86" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+    <rect x="696" y="273" width="54" height="20" rx="6" fill="#e0f2fe" stroke="#0369a1"/>
+    <text x="723" y="283" text-anchor="middle" dominant-baseline="middle" font-size="10" font-weight="700" fill="#0369a1">ACTOR</text>
+    <text x="790" y="302" text-anchor="middle" dominant-baseline="middle" font-size="15" font-weight="700" fill="#111827">ToolRegistryActor</text>
+    <text x="790" y="323" text-anchor="middle" dominant-baseline="middle" font-size="11.5" fill="#475569">Read / Write / Edit / Bash</text>
+    <text x="790" y="338" text-anchor="middle" dominant-baseline="middle" font-size="11.5" fill="#475569">dispatches tool calls</text>
+  </g>
+
+  <g id="tui">
+    <rect x="380" y="455" width="220" height="76" rx="8" fill="#f8fafc" stroke="#334155" stroke-width="1.5"/>
+    <rect x="396" y="468" width="82" height="20" rx="6" fill="#ffffff" stroke="#334155"/>
+    <text x="437" y="478" text-anchor="middle" dominant-baseline="middle" font-size="10" font-weight="700" fill="#475569">NOT ACTOR</text>
+    <text x="490" y="496" text-anchor="middle" dominant-baseline="middle" font-size="15" font-weight="700" fill="#111827">minimal chat TUI</text>
+    <text x="490" y="516" text-anchor="middle" dominant-baseline="middle" font-size="11.5" fill="#475569">stdin/stdout event adapter</text>
+  </g>
+
+  <path d="M 490 181 L 190 260" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M 490 181 L 490 260" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M 490 181 L 790 260" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M 490 346 L 490 455" fill="none" stroke="#334155" stroke-width="1.5" stroke-dasharray="6 6" marker-end="url(#arrow)"/>
+
+  <path d="M 465 304 L 300 304" fill="none" stroke="#0369a1" stroke-width="1.5" stroke-dasharray="6 6" marker-end="url(#blueArrow)"/>
+  <path d="M 600 304 L 680 304" fill="none" stroke="#047857" stroke-width="1.5" stroke-dasharray="6 6" marker-end="url(#greenArrow)"/>
+  <path d="M 465 455 C 315 420 280 225 450 166" fill="none" stroke="#334155" stroke-width="1.5" stroke-dasharray="6 6" marker-end="url(#arrow)"/>
+
+  <rect x="345" y="252" width="86" height="24" rx="6" fill="#ffffff" stroke="#0369a1"/>
+  <text x="388" y="264" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="600" fill="#0369a1">LLM turn</text>
+  <rect x="615" y="252" width="86" height="24" rx="6" fill="#ffffff" stroke="#047857"/>
+  <text x="658" y="264" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="600" fill="#047857">tool batch</text>
+  <rect x="514" y="390" width="86" height="24" rx="6" fill="#ffffff" stroke="#334155"/>
+  <text x="557" y="402" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="600" fill="#475569">UiEvent</text>
+  <rect x="332" y="418" width="106" height="24" rx="6" fill="#ffffff" stroke="#334155"/>
+  <text x="385" y="430" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="600" fill="#475569">UserMessage</text>
+</svg>

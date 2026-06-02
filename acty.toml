@@ -1,0 +1,102 @@
+[workspace]
+root = "."
+
+[runtime]
+log_filter = "acty=info,warn"
+mailbox_capacity = 256
+
+# Provider selection
+#
+# Acty supports two wire protocols:
+# - protocol = "openai" talks to OpenAI-compatible Chat Completions APIs.
+# - protocol = "anthropic" talks to Anthropic's Messages API.
+#
+# Keep exactly one [llm] block uncommented. The example below uses Cerebras.
+
+# Local llama.cpp / Ollama-style OpenAI-compatible server.
+# Use this when you have a local server exposing /v1/chat/completions.
+#
+# [llm]
+# provider_label = "local llama.cpp"
+# protocol = "openai"
+# base_url = "http://127.0.0.1:8080/v1"
+# model = "local-model"
+# max_tokens = 2048
+#
+# [llm.auth]
+# mode = "none"
+#
+# [llm.temperature]
+# mode = "fixed"
+# value = 0.2
+
+# Cerebras OpenAI-compatible API.
+# Requires: export CEREBRAS_API_KEY="..."
+[llm]
+provider_label = "Cerebras"
+protocol = "openai"
+base_url = "https://api.cerebras.ai/v1"
+model = "gpt-oss-120b"
+max_tokens = 2048
+
+[llm.auth]
+mode = "api_key_env"
+name = "CEREBRAS_API_KEY"
+
+[llm.temperature]
+mode = "fixed"
+value = 0.2
+
+# OpenAI Chat Completions API.
+# Requires: export OPENAI_API_KEY="..."
+# The base URL is from OpenAI's Chat Completions API reference:
+# https://api.openai.com/v1/chat/completions
+#
+# [llm]
+# provider_label = "OpenAI"
+# protocol = "openai"
+# base_url = "https://api.openai.com/v1"
+# model = "gpt-5.1"
+# max_tokens = 2048
+#
+# [llm.auth]
+# mode = "api_key_env"
+# name = "OPENAI_API_KEY"
+#
+# [llm.temperature]
+# mode = "fixed"
+# value = 0.2
+
+# Anthropic Messages API.
+# Requires: export ANTHROPIC_API_KEY="..."
+# The base URL is from Anthropic's Messages API reference:
+# https://api.anthropic.com/v1/messages
+#
+# [llm]
+# provider_label = "Anthropic"
+# protocol = "anthropic"
+# base_url = "https://api.anthropic.com/v1"
+# model = "claude-sonnet-4-5"
+# max_tokens = 2048
+#
+# [llm.auth]
+# mode = "api_key_env"
+# name = "ANTHROPIC_API_KEY"
+#
+# [llm.temperature]
+# mode = "fixed"
+# value = 0.2
+
+[agent]
+max_turns = 12
+system_prompt = """
+You are Acty, a small coding agent used to teach actor-style agent design.
+Work inside the configured workspace. Use tools when you need facts or need to
+change files. After tool results come back, continue until the user's task is
+done. Keep final answers brief and name any commands you ran.
+"""
+
+[tools]
+allowed = ["Read", "Write", "Edit", "Bash"]
+bash_timeout_secs = 30
+output_byte_limit = 12000
